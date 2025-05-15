@@ -1,18 +1,9 @@
-import { Flex, Wrap } from "@chakra-ui/react";
-import { getAllProducts } from "../services/products.service";
-import { useEffect, useState } from "react";
+import { Wrap } from "@chakra-ui/react";
 import ProductCard from "./ProductCard";
 
 
-const ItemListContainer = () => {
-    const [products, setProducts] = useState([]);
-
-
-    useEffect(() => {
-        getAllProducts().then((res) => {
-            setProducts(res.data.products);
-        });
-    }, []);
+const ItemListContainer = ({products}) => {
+    
 
     return (
 
@@ -20,6 +11,7 @@ const ItemListContainer = () => {
             {products.map((product) => (
                 <ProductCard
                     key={product.id}
+                    id={product.id}
                     title={product.title}
                     image={product.thumbnail}
                     price={product.price}
@@ -29,11 +21,7 @@ const ItemListContainer = () => {
                 />
             ))}
         </Wrap>
-        /*<Flex>
-           {products.map ((product) => {
-               return <div>{product.title}</div>
-           })}
-           </Flex>*/
+        
     );
 };
 

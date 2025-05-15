@@ -1,18 +1,17 @@
 import React from "react";
 //import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
-import MainLayout from "./layouts/MainLayout";
-import ItemListContainer from "./components/ItemListContainer";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
 
 
 const App = () =>{
   
   return (
     <ChakraProvider>
-      <MainLayout>
-        <ItemListContainer greeting="VERTICAL Ski & Snowboard"/>
-      </MainLayout>
-      
+
+        <RouterProvider router={router}/>
+
     </ChakraProvider>
   );
 };
