@@ -1,7 +1,7 @@
 import React from "react";
 //import "./App.css";
-import { Box, ChakraProvider } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
+import { ChakraProvider } from "@chakra-ui/react";
+import MainLayout from "./layouts/MainLayout";
 import ItemListContainer from "./components/ItemListContainer";
 
 
@@ -9,10 +9,9 @@ const App = () =>{
   
   return (
     <ChakraProvider>
-      <Box height="100vh">
-        <NavBar/>
+      <MainLayout>
         <ItemListContainer greeting="VERTICAL Ski & Snowboard"/>
-      </Box>
+      </MainLayout>
       
     </ChakraProvider>
   );
