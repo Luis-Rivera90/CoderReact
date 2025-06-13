@@ -85,7 +85,7 @@ const ProductCard = ({ id, title, image, price, isNew, rating, numReviews }) => 
             <Box as="span" color={'gray.600'} fontSize="lg">
               £
             </Box>
-            {price.toFixed(2)}
+            {!isNaN(Number(price)) ? Number(price).toFixed(2) : 'Precio no disponible'}
           </Box>
         </Flex>
       </Box>

@@ -6,7 +6,6 @@ import {
     Image,
     Flex,
     VStack,
-    Button,
     Heading,
     SimpleGrid,
     useColorModeValue,
@@ -14,6 +13,9 @@ import {
 } from '@chakra-ui/react';
 import { MdLocalShipping } from 'react-icons/md';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import { CartContext } from '../context/CartContext';
+import ItemCount from "./ItemCount"
+import { useContext } from 'react';
 
 const Rating = ({ rating, numReviews }) => {
     return (
@@ -38,6 +40,7 @@ const Rating = ({ rating, numReviews }) => {
 };
 
 const ItemDetailContainer = ({ product }) => {
+    const { setCart, cart } = useContext(CartContext);
 
     if (!product || Object.keys(product).length === 0) {
         return <Text>Cargando producto...</Text>;
@@ -88,7 +91,9 @@ const ItemDetailContainer = ({ product }) => {
                             fontWeight={300}
                             fontSize={'2xl'}
                         >
-                            ${product.price.toFixed(2)}
+                            {!isNaN(Number(product?.price))
+                                ? `$${Number(product.price).toFixed(2)}`
+                                : 'Precio no disponible'}
                         </Text>
                     </Box>
 
@@ -104,25 +109,9 @@ const ItemDetailContainer = ({ product }) => {
                         </Text>
                     </VStack>
 
-                    <Button
-                        rounded={'md'}
-                        w={'full'}
-                        mt={8}
-                        size={'lg'}
-                        py={'7'}
-                        bg={useColorModeValue('teal.500', 'teal.300')}
-                        color={useColorModeValue('white', 'gray.900')}
-                        fontWeight="bold"
-                        textTransform={'uppercase'}
-                        _hover={{
-                            bg: useColorModeValue('teal.600', 'teal.400'),
-                            transform: 'translateY(-1px)',
-                            boxShadow: 'lg',
-                        }}
-                        onClick={() => console.log('Producto agregado al carrito')}
-                    >
-                        Add to cart
-                    </Button>
+                    <ItemCount product={product} />
+
+                    
 
                     <Stack direction="row" alignItems="center" justifyContent={'center'}>
                         <MdLocalShipping />

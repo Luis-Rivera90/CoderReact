@@ -1,4 +1,4 @@
-import { Flex, Box, Button, Heading, Image, Text } from '@chakra-ui/react';
+import { Flex, Button, Heading, Image, Text } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 const NotFound = () => {

@@ -3,7 +3,8 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import CartWidget from "./CartWidget";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { getAllCategories } from "../services/products.service";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../services/config/firebase";
 
 
 const NavBar = () => {
@@ -11,9 +12,17 @@ const NavBar = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState ([]);
   useEffect(() => {
-    getAllCategories()
-    .then((res) => setCategories(res.data))
-    .catch((error) => console.error(error))
+    const categoriesCollection = collection(db, "categories");
+
+        getDocs(categoriesCollection)
+            .then((snapshot) => {
+                const data = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setCategories(data);
+            })
+            .catch(() => setError(true))
   }, [])
 
   return <Flex justifyContent="space-between" alignItems="center" width="100vw" padding="20px 20px" height="7%" border="1px solid #2e2e2e" cursor={"pointer"}>

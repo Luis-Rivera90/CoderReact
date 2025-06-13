@@ -1,19 +1,33 @@
 import { useEffect, useState } from "react";
 import ItemListContainer from "../components/ItemListContainer";
-import { getAllProducts } from "../services/products.service";
+import { Spinner } from '@chakra-ui/react'
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../services/config/firebase";
 
 const Home = () => {
 
     const [products, setProducts] = useState([]);
-    
-    
-        useEffect(() => {
-            getAllProducts().then((res) => {
-                setProducts(res.data.products);
-            });
-        }, []);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
-    return <ItemListContainer products={products} />
+
+
+    useEffect(() => {
+        const productsCollection = collection(db, "products");
+
+        getDocs(productsCollection)
+            .then((snapshot) => {
+                const data = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setProducts(data);
+            })
+            .catch(() => setError(true))
+            .finally(() => setLoading(false));
+    }, []);
+
+    return loading ? <Spinner /> : <ItemListContainer products={products} />
 };
 
 export default Home;
